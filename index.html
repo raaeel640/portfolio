@@ -38,7 +38,11 @@
   @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
   .cursor{display:inline-block;width:3px;height:1em;background:var(--accent2);margin-left:4px;vertical-align:middle;animation:blink 1s infinite}
   h1.name{font-size:clamp(3rem,8vw,6rem);font-weight:800;line-height:1;letter-spacing:-2px;color:#fff;margin-bottom:0.5rem}
-  h1.name em{font-style:normal;color:transparent;-webkit-text-stroke:2px var(--accent2)}
+ h1.name em{
+    font-style: normal;
+    color: var(--accent2);
+    -webkit-text-stroke: 0;
+}
   .hero-role{font-size:clamp(1rem,2.5vw,1.4rem);font-weight:600;color:var(--muted);margin-bottom:1.5rem;letter-spacing:0.02em;min-height:2rem}
   .hero-desc{font-size:1rem;color:var(--muted);max-width:520px;margin-bottom:2.5rem;line-height:1.8}
   .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
@@ -83,12 +87,37 @@
   .cat-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
 
   /* PROJECTS GRID */
-  .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem;align-items:start}
-  .project-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color 0.25s,transform 0.25s,box-shadow 0.25s;position:relative;cursor:default}
-  .project-card.hidden{display:none}
-  .project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform 0.35s;z-index:2}
-  .project-card:hover{border-color:rgba(46,111,218,0.5);transform:translateY(-5px);box-shadow:0 18px 45px rgba(46,111,218,0.18)}
-  .project-card:hover::before{transform:scaleX(1)}
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1.5rem;
+    align-items: stretch; /* Yeh saare cards ki height barabar rakhega */
+  }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    cursor: default;
+    display: flex;
+    flex-direction: column; /* Content ko top-to-bottom stretch karega */
+    height: 100%;
+  }
+  .project-body {
+    padding: 1.2rem 1.4rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Yeh text box ko fill karega taake buttons hamesha bottom par aligned rahein */
+  }
+  .project-desc {
+    font-size: 0.84rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    flex-grow: 1; /* Description box baki bachi hui saari space le lega */
+  }
 
   /* ── CAROUSEL ── */
   .carousel{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:var(--navy3)}
@@ -165,11 +194,52 @@
   /* CARD BODY */
   .project-body{padding:1.2rem 1.4rem 1.5rem}
   .project-num{font-size:0.68rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;margin-bottom:0.5rem}
-  .project-title{font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.5rem}
+ .project-title{
+    min-height: 48px;
+}
+
+.project-desc{
+    min-height: 90px;
+}
+
+.project-tags{
+    min-height: 32px;
+}
+
+.project-links{
+    margin-top: auto;
+}
   .project-desc{font-size:0.84rem;color:var(--muted);margin-bottom:1rem;line-height:1.7}
   .project-tags{display:flex;gap:0.5rem;flex-wrap:wrap}
   .tag{font-size:0.7rem;font-weight:500;color:var(--accent2);background:rgba(46,111,218,0.1);border:1px solid rgba(46,111,218,0.2);border-radius:999px;padding:0.18rem 0.7rem}
 
+   .project-links {
+    margin-top: 1.25rem;
+    display: flex;
+    gap: 0.75rem;
+  }
+  /* Dono buttons ke liye base clean design with clear white text */
+  .btn-github, .btn-design {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #ffffff !important; /* Forces text to stay white */
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(46, 111, 218, 0.25); /* Darker background so it stands out */
+    border: 1px solid var(--accent2); /* Clear blue border */
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .btn-github:hover, .btn-design:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 111, 218, 0.3);
+  }
   /* LIGHTBOX */
   .lb-overlay{
     display:none;position:fixed;inset:0;z-index:1000;
@@ -243,7 +313,7 @@
   footer{border-top:1px solid var(--border);text-align:center;padding:2rem 3rem;color:var(--muted);font-size:0.82rem}
   footer span{color:var(--accent2)}
   .scroll-top{position:fixed;bottom:2rem;right:2rem;width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity 0.3s,transform 0.3s,background 0.2s;z-index:99}
-  .scroll-top.visible{opacity:1;transform:translateY(0)}
+  .scroll-top.visibl.project-linkse{opacity:1;transform:translateY(0)}
   .scroll-top:hover{background:var(--glow)}
   ::-webkit-scrollbar{width:4px}
   ::-webkit-scrollbar-track{background:var(--navy)}
@@ -316,7 +386,7 @@
     <div class="hero-tag"><span class="dot"></span> Available for opportunities</div>
     <h1 class="name">Raaeel<br><em>Fatima</em></h1>
     <p class="hero-role"><span id="typingText"></span><span class="cursor"></span></p>
-    <p class="hero-desc">I create stunning visual designs and responsive web experiences — combining a sharp eye for aesthetics with technical know-how to turn ideas into pixel-perfect reality.</p>
+    <p class="hero-desc">I create stunning visual designs and responsive web experiences combining a sharp eye for aesthetics with technical know-how to turn ideas into pixel-perfect reality.</p>
     <div class="hero-btns">
       <a href="#projects" class="btn-primary">View My Work</a>
       <a href="#contact" class="btn-outline">Get In Touch</a>
@@ -341,7 +411,7 @@
       <p>When I'm not designing, you'll find me exploring UI trends, learning new tools, or experimenting with colour palettes that make brands pop.</p>
       <div class="about-stats">
         <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Design Projects</div></div>
-        <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Design Tools</div></div>
+        <div class="stat"><div class="stat-num">2+</div><div class="stat-label">Design Tools</div></div>
         <div class="stat"><div class="stat-num">4+</div><div class="stat-label">Categories</div></div>
       </div>
     </div>
@@ -358,15 +428,15 @@
   </div>
   <div class="skills-grid fade-in">
     <div class="skill-card"><div class="skill-icon">🎨</div><div class="skill-name">Canva</div><div class="skill-bar"><div class="skill-fill" data-width="95%"></div></div></div>
-    <div class="skill-card"><div class="skill-icon">🖼️</div><div class="skill-name">Adobe Photoshop</div><div class="skill-bar"><div class="skill-fill" data-width="80%"></div></div></div>
-    <div class="skill-card"><div class="skill-icon">✏️</div><div class="skill-name">Adobe Illustrator</div><div class="skill-bar"><div class="skill-fill" data-width="75%"></div></div></div>
+    <div class="skill-card"><div class="skill-icon">💻</div><div class="skill-name">C++</div><div class="skill-bar"><div class="skill-fill" data-width="80%"></div></div></div>
+    <!-- <div class="skill-card"><div class="skill-icon">✏️</div><div class="skill-name">Adobe Illustrator</div><div class="skill-bar"><div class="skill-fill" data-width="75%"></div></div></div> -->
     <div class="skill-card"><div class="skill-icon">📐</div><div class="skill-name">Figma</div><div class="skill-bar"><div class="skill-fill" data-width="70%"></div></div></div>
     <div class="skill-card"><div class="skill-icon">🌐</div><div class="skill-name">HTML</div><div class="skill-bar"><div class="skill-fill" data-width="87%"></div></div></div>
-    <div class="skill-card"><div class="skill-icon">💅</div><div class="skill-name">CSS</div><div class="skill-bar"><div class="skill-fill" data-width="85%"></div></div></div>
+    <div class="skill-card"><div class="skill-icon">💻</div><div class="skill-name">CSS</div><div class="skill-bar"><div class="skill-fill" data-width="85%"></div></div></div>
     <div class="skill-card"><div class="skill-icon">⚡</div><div class="skill-name">JavaScript</div><div class="skill-bar"><div class="skill-fill" data-width="60%"></div></div></div>
-    <div class="skill-card"><div class="skill-icon">🐍</div><div class="skill-name">Python</div><div class="skill-bar"><div class="skill-fill" data-width="50%"></div></div></div>
-    <div class="skill-card"><div class="skill-icon">🎭</div><div class="skill-name">Brand Identity</div><div class="skill-bar"><div class="skill-fill" data-width="85%"></div></div></div>
-    <div class="skill-card"><div class="skill-icon">📱</div><div class="skill-name">Social Media Design</div><div class="skill-bar"><div class="skill-fill" data-width="90%"></div></div></div>
+    <div class="skill-card"><div class="skill-icon">💻</div><div class="skill-name">Python</div><div class="skill-bar"><div class="skill-fill" data-width="50%"></div></div></div>
+    <!-- <div class="skill-card"><div class="skill-icon">🎭</div><div class="skill-name">Brand Identity</div><div class="skill-bar"><div class="skill-fill" data-width="85%"></div></div></div> -->
+    <!-- <div class="skill-card"><div class="skill-icon">📱</div><div class="skill-name">Social Media Design</div><div class="skill-bar"><div class="skill-fill" data-width="90%"></div></div></div> -->
     <div class="skill-card"><div class="skill-icon">🖥️</div><div class="skill-name">UI/UX Design</div><div class="skill-bar"><div class="skill-fill" data-width="72%"></div></div></div>
     <div class="skill-card"><div class="skill-icon">🗄️</div><div class="skill-name">SQL</div><div class="skill-bar"><div class="skill-fill" data-width="75%"></div></div></div>
   </div>
@@ -399,7 +469,7 @@
       <div class="project-body">
         <div class="project-num">01 — FOOD</div>
         <div class="project-title">Food Brand Visual</div>
-        <p class="project-desc">Social media posters and brand visuals for food products — vibrant colours, appetizing typography and clean layouts.</p>
+        <p class="project-desc">Social media posters and brand visuals for food products ,vibrant colours, appetizing typography and clean layouts.</p>
         <div class="project-tags"><span class="tag">Canva</span><span class="tag">Brand Design</span><span class="tag">Food</span></div>
       </div>
     </div>
@@ -412,7 +482,7 @@
       <div class="project-body">
         <div class="project-num">02 — FOOD</div>
         <div class="project-title">Coffee Brand Design</div>
-        <p class="project-desc">Clean and modern coffee brand layout — warm tones, elegant typography and cohesive visual identity.</p>
+        <p class="project-desc">Clean and modern coffee brand layout , warm tones, elegant typography and cohesive visual identity.</p>
         <div class="project-tags"><span class="tag">Canva</span><span class="tag">Print Design</span><span class="tag">Food</span></div>
       </div>
     </div>
@@ -425,7 +495,7 @@
       <div class="project-body">
         <div class="project-num">03 — SHOES</div>
         <div class="project-title">Sneaker Brand Poster</div>
-        <p class="project-desc">Bold product posters for sneaker brands — dynamic composition, modern fonts and strong visual hierarchy.</p>
+        <p class="project-desc">Bold product posters for sneaker brands ,dynamic composition, modern fonts and strong visual hierarchy.</p>
         <div class="project-tags"><span class="tag">Photoshop</span><span class="tag">Product Design</span><span class="tag">Shoes</span></div>
       </div>
     </div>
@@ -438,7 +508,7 @@
       <div class="project-body">
         <div class="project-num">04 — SHOES</div>
         <div class="project-title">Footwear Collection Ad</div>
-        <p class="project-desc">Social media ad designs for footwear collections — elegant styling, product spotlight and call-to-action layouts.</p>
+        <p class="project-desc">Social media ad designs for footwear collections ,elegant styling, product spotlight and call-to-action layouts.</p>
         <div class="project-tags"><span class="tag">Canva</span><span class="tag">Ad Design</span><span class="tag">Shoes</span></div>
       </div>
     </div>
@@ -451,8 +521,8 @@
       <div class="project-body">
         <div class="project-num">05 — HEADPHONES</div>
         <div class="project-title">Audio Brand Campaign</div>
-        <p class="project-desc">Dark-themed product campaign for a premium headphone brand — moody visuals, glowing accents and impactful typography.</p>
-        <div class="project-tags"><span class="tag">Photoshop</span><span class="tag">Product Poster</span><span class="tag">Headphones</span></div>
+        <p class="project-desc">Dark-themed product campaign for a premium headphone brand ,moody visuals, glowing accents and impactful typography.</p>
+        <div class="project-tags"><span class="tag">Canva</span><span class="tag">Product Poster</span><span class="tag">Headphones</span></div>
       </div>
     </div>
 
@@ -464,37 +534,116 @@
       <div class="project-body">
         <div class="project-num">06 — FASHION</div>
         <div class="project-title">Beauty &amp; Wellness Campaign</div>
-        <p class="project-desc">Elegant promotional design for a beauty treatment — soft tones, luxe layout and a compelling visual narrative.</p>
+        <p class="project-desc">Elegant promotional design for a beauty treatment, soft tones, luxe layout and a compelling visual narrative.</p>
         <div class="project-tags"><span class="tag">Canva</span><span class="tag">Beauty</span><span class="tag">Campaign</span></div>
       </div>
     </div>
 
     <!-- DEV 1 -->
+   <!-- DEV 1 -->
     <div class="project-card fade-in" data-category="dev">
       <div class="carousel" data-title="CASE Tool UI"
-           data-images='[]'>
+           data-images='["casetool.png"]'>
       </div>
       <div class="project-body">
         <div class="project-num">07 — DEV PROJECT</div>
         <div class="project-title">CASE Tool UI</div>
         <p class="project-desc">A responsive CASE Tool UI designed in Figma for the Software Design &amp; Architecture course. Full prototype and interaction flows.</p>
         <div class="project-tags"><span class="tag">Figma</span><span class="tag">Prototype</span><span class="tag">UI/UX</span></div>
+        
+        <!-- ADD THIS BUTTON CONTAINER -->
+        <div class="project-links">
+          <a href="https://github.com/raaeel640/Case_tool" target="_blank" class="btn-github">
+            <span></span> View GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- inventory management system -->
+   <!-- INVENTORY MANAGEMENT SYSTEM CARD -->
+    <div class="project-card fade-in" data-category="dev">
+      <div class="carousel" data-title="Inventory Management System"
+           data-images='["inventory.jpg"]'>
+      </div>
+      <div class="project-body">
+        <div class="project-num">08 — DEV PROJECT</div>
+        <div class="project-title">Inventory Management System</div>
+        <p class="project-desc">Built an Inventory Management System using Design and Analysis of Algorithms (DAA) concepts for efficient stock management, product search, and inventory updates with optimized performance.</p>
+        <div class="project-tags"><span class="tag">DAA</span><span class="tag">C++</span><span class="tag">GUI</span></div>
+        
+        <div class="project-links">
+          <a href="https://github.com/raaeel640/Ineventory-managemnt" target="_blank" class="btn-github">
+            <span></span> View GitHub
+          </a>
+        </div>
       </div>
     </div>
 
-    <!-- DEV 2 -->
+    <!-- LIBRARY MANAGEMENT SYSTEM CARD -->
     <div class="project-card fade-in" data-category="dev">
       <div class="carousel" data-title="Library Management System"
            data-images='["download.jpg"]'>
       </div>
       <div class="project-body">
-        <div class="project-num">08 — DEV PROJECT</div>
+        <div class="project-num">09 — DEV PROJECT</div>
         <div class="project-title">Library Management System</div>
-        <p class="project-desc">A web application for managing library resources with full CRUD operations and responsive UI.</p>
+        <p class="project-desc">A responsive library management system with CRUD operations, book issuing, fine tracking, and an easy-to-use interface.</p>
         <div class="project-tags"><span class="tag">C++</span><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span></div>
+        
+        <!-- <div class="project-links">
+          <a href="https://github.com/yourusername/your-repo-name" target="_blank" class="btn-github">
+            <span></span> View GitHub
+          </a>
+        </div> -->
+      </div>
+    </div>
+   <!-- FOOD APPLICATION FIGMA DESIGN CARD -->
+    <div class="project-card fade-in" data-category="dev">
+      <div class="carousel" data-title="Food Application"
+           data-images='["food.jpg"]'>
+      </div>
+      <div class="project-body">
+        <div class="project-num">10 — DEV PROJECT</div>
+        <div class="project-title">Food Application UI Design</div>
+        <p class="project-desc">A high-fidelity mobile application design for a food delivery platform, featuring interactive splash screens, user-friendly menus, and smooth checkout prototyping flows.</p>
+        <div class="project-tags"><span class="tag">Figma</span><span class="tag">Prototype</span><span class="tag">UI/UX</span></div>
+        
+        <!-- UPDATED HIGHLY VISIBLE GITHUB BUTTON -->
+        <div class="project-links">
+          <a href="https://github.com/raaeel640/Food-App/tree/main" target="_blank" class="btn-github">
+            <span></span> View GitHub
+          </a>
+        </div>
       </div>
     </div>
 
+    <!-- MINI OS KERNEL -->
+<div class="project-card fade-in" data-category="dev">
+  <div class="carousel" data-title="Mini OS Kernel"
+       data-images='["OS.jpg"]'>
+  </div>
+
+  <div class="project-body">
+    <div class="project-num">11 — DEV PROJECT</div>
+    <div class="project-title">Mini OS Kernel</div>
+
+    <p class="project-desc">
+A Mini Operating System Kernel implementing process scheduling, memory management, and basic system calls using C++.
+</p>
+
+    <div class="project-tags">
+      <span class="tag">C++</span>
+      <span class="tag">Operating System</span>
+      <span class="tag">Kernel</span>
+    </div>
+
+    <div class="project-links">
+      <a href="https://github.com/raaeel640/Mini-OS-kernel" target="_blank" class="btn-github">
+        View GitHub
+      </a>
+    </div>
+  </div>
+</div>
   </div>
 </section>
 
@@ -506,9 +655,19 @@
     <h2 class="sec-title">Experience</h2>
     <div class="sec-line"></div>
   </div>
+   <div class="exp-item fade-in">
+      <div class="exp-date">2024-present</div>
+      <div>
+        <div class="exp-role">Member Team Media</div>
+        <div class="exp-company">MCS NUST Rawalpindi, PK</div>
+        <p class="exp-desc">I have been the part of Software Society since my first semester and have contributed in tech events as member media
+          In 2025 Devcon I served as Deputy Director Media and now in 2026 (when my third term will start) I will be the Secretary Media for Software Society.</p>
+      </div>
+    </div>
+
   <div class="exp-list">
     <div class="exp-item fade-in">
-      <div class="exp-date">2024 — Present</div>
+      <div class="exp-date">2025</div>
       <div>
         <div class="exp-role">Frontend Developer &amp; Graphic Designer</div>
         <div class="exp-company">Code Quest — Participant</div>
@@ -516,11 +675,19 @@
       </div>
     </div>
     <div class="exp-item fade-in">
-      <div class="exp-date">2023 — Present</div>
+      <div class="exp-date">2025</div>
       <div>
-        <div class="exp-role">Software Engineering Student</div>
-        <div class="exp-company">NUST — Rawalpindi, PK</div>
-        <p class="exp-desc">Pursuing a degree in Software Engineering. Coursework includes Data Structures, Algorithms, Database Systems, and Object-Oriented Programming. Actively designing visual projects alongside academic work.</p>
+        <div class="exp-role">Hard working Ambassador Award</div>
+        <div class="exp-company">EME NUST Rawalpindi, PK</div>
+        <p class="exp-desc">Received for outstanding academic performance and leadership in student activitis and participated in speed programming competition</p>
+      </div>
+    </div>
+  <div class="exp-item fade-in">
+      <div class="exp-date">2026</div>
+      <div>
+        <div class="exp-role">Backend AI Engineering Inter</div>
+        <div class="exp-company">Fly Rank AI</div>
+        <!-- <p class="exp-desc">Collaborated with the design team to create UI components and graphic assets. Improved visual consistency across products and contributed to page load performance improvements of 40%.</p> -->
       </div>
     </div>
   </div>
@@ -554,7 +721,7 @@
   </div>
 </section>
 
-<footer><p>Designed &amp; Built by <span>Raaeel Fatima</span> — Graphic Designer &amp; Frontend Developer — 2026</p></footer>
+<footer><p>Designed and Built by <span>Raaeel Fatima</span> , Graphic Designer &amp; Frontend Developer</p></footer>
 
 <script>
 // ─────────────────────────────────────────
@@ -694,13 +861,29 @@ document.addEventListener('keydown', e => {
 // ─────────────────────────────────────────
 //  FILTER
 // ─────────────────────────────────────────
-function filterProjects(cat, btn) {
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.project-card').forEach(card => {
-    const match = cat === 'all' || card.dataset.category === cat;
-    card.classList.toggle('hidden', !match);
+function filterProjects(category, btn) {
+
+  // Active button
+  document.querySelectorAll(".cat-btn").forEach(button =>
+    button.classList.remove("active")
+  );
+  btn.classList.add("active");
+
+  // Filter cards
+  document.querySelectorAll(".project-card").forEach(card => {
+
+    if (category === "all") {
+      card.style.display = "flex";
+    }
+    else if (card.dataset.category === category) {
+      card.style.display = "flex";
+    }
+    else {
+      card.style.display = "none";
+    }
+
   });
+
 }
 
 // ─────────────────────────────────────────
